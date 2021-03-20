@@ -1,0 +1,59 @@
+---
+title: "Homework #1 - ggplot graphs"
+class: "Data Visualization"
+author: "Andrea Gonzalez"
+output: html_notebook
+---
+#Libraries
+```{r}
+library(tidyverse)
+library(readr)
+library(ggplot2)
+```
+
+
+Assignment:
+Find a data set on eSports and generate 2 visualizations (a bar chart, pie chart, scatter plot, or line chart) using GGPlot. All of your axes, titles, subtitles, and captions must be labeled and all of the visualizations must be colorful and easy to read. Embed each of your visualizations with a label (fig 1, fig 2) here in the discussion as a post. I suggest uploading your image and select Embed Image from the options above. Underneath each visualization, describe in two complete sentences, what the visualization means and why it is important.
+
+#Dataset: League of Legends World Championship 2019
+```{r}
+TeamEarnings <- read_csv("Downloads/archive (3)/highest_earning_teams.csv")
+TeamEarnings
+```
+```{r}
+cleanTE <- TeamEarnings %>% filter(TotalUSDPrize > 1000000.00)
+cleanTE
+```
+
+```{r}
+cleanTE2 <- cleanTE %>% filter(TotalTournaments > 100)
+cleanTE2
+```
+
+#Bar Chart
+```{r}
+Bar_Plot <- ggplot(data = cleanTE2, mapping = aes(x=TeamName, y=TotalTournaments, fill=Game)) +
+  geom_bar(stat="identity", position = "dodge") +
+   theme(axis.text.x = element_text(angle = 90)) +
+    labs(title = "Top Teams For Top 10 Games on eSports Earnings",
+       subtitle = "Teams with highest tournaments and price earnings",
+       x = "Team Names",
+       y = "Total of Tournaments",
+       caption = "Source: Kaggle")
+ggsave(file = "BarPlot.png", plot = Bar_Plot, width = 10, height = 10)
+Bar_Plot
+```
+
+#Pie Chart
+```{r}
+Pie <- ggplot(data = cleanTE2, mapping = aes(x = "", y = TotalUSDPrize, fill = Game)) +
+  geom_bar(stat= "identity", width=1) +
+  coord_polar("y", start= 0) + 
+  theme_void() +
+  labs( y = "Total Prize",
+        title = "Top Teams For Top 10 Games on eSports Earnings",
+        subtitle = "Total prize earnings per game",
+        caption = "Source: Kaggle")
+ggsave(file = "PieChart.png", plot = Pie, width = 10, height = 10)
+Pie
+```
