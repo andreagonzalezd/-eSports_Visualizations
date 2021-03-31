@@ -1,4 +1,4 @@
-# *** eSports_Visualizations ***
+# ***eSports_Visualizations***
 
 ## Data Visualization: Graphs and plots about a Esport Earnings per Team dataset
 
